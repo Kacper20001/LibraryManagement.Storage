@@ -13,7 +13,7 @@ namespace LibraryManagement.Service.Query.Dtos
             Id = id;
             BookId = bookId;
             BookTitle = bookTitle;
-            ClientName = clientName; // Przypisanie nazwy klienta
+            ClientName = clientName;
             LoanDate = loanDate;
             ReturnDate = returnDate;
         }
@@ -21,7 +21,7 @@ namespace LibraryManagement.Service.Query.Dtos
         public int Id { get; }
         public int BookId { get; }
         public string BookTitle { get; }
-        public string ClientName { get; } // Nowe pole na nazwę klienta
+        public string ClientName { get; } 
         public DateTime LoanDate { get; }
         public DateTime? ReturnDate { get; }
     }

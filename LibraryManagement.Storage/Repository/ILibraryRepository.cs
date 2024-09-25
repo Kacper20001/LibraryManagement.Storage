@@ -14,14 +14,14 @@ namespace LibraryManagement.Storage.Repository
         Client GetClientById(int clientId);
         void AddClient(Client client);
         void DeleteClient(int clientId);
-        void UpdateClient(Client client); // Dodanie metody aktualizacji
+        void UpdateClient(Client client); 
 
         // Book Management
         List<Book> GetBooks();
         Book GetBookById(int bookId);
         void AddBook(Book book);
         void DeleteBook(int bookId);
-        void UpdateBook(Book book); // Dodanie metody aktualizacji
+        void UpdateBook(Book book); 
 
         // Loan Management
         List<Loan> GetLoansByClientId(int clientId);

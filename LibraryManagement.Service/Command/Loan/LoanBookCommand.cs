@@ -12,8 +12,7 @@ namespace LibraryManagement.Service.Command.Loan
         public int ClientId { get; set; }
         public int BookId { get; set; }
 
-        // Dodajemy listy rozwijane
-        public List<ClientDto> Clients { get; set; } // Lista klientów do wyboru
-        public List<BookDto> Books { get; set; } // Lista książek do wyboru
+        public List<ClientDto> Clients { get; set; }
+        public List<BookDto> Books { get; set; } 
     }
 }

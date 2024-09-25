@@ -18,30 +18,23 @@ namespace LibraryManagement.Storage.Repository
             _context = context;
         }
 
-        // Client Management
         public List<Client> GetClients() => _context.Clients.ToList();
         public Client GetClientById(int clientId) => _context.Clients.Include(c => c.Loans).SingleOrDefault(c => c.Id == clientId);
         public void AddClient(Client client) { _context.Clients.Add(client); _context.SaveChanges(); }
         public void DeleteClient(int clientId) { var client = _context.Clients.Find(clientId); if (client != null) { _context.Clients.Remove(client); _context.SaveChanges(); } }
         public void UpdateClient(Client client) { _context.Clients.Update(client); _context.SaveChanges(); }
-
-        // Book Management
         public List<Book> GetBooks() => _context.Books.ToList();
         public Book GetBookById(int bookId) => _context.Books.Find(bookId);
         public void AddBook(Book book) { _context.Books.Add(book); _context.SaveChanges(); }
         public void DeleteBook(int bookId) { var book = _context.Books.Find(bookId); if (book != null) { _context.Books.Remove(book); _context.SaveChanges(); } }
         public void UpdateBook(Book book) { _context.Books.Update(book); _context.SaveChanges(); }
-
-        // Loan Management
         public List<Loan> GetLoansByClientId(int clientId)
         {
-            // Włącz Include, aby załadować powiązane obiekty książek i klientów
             return _context.Loans
-                           .Include(l => l.Book)   // Załaduj książki
-                           .Include(l => l.Client) // Załaduj klientów
+                           .Include(l => l.Book)   
+                           .Include(l => l.Client)
                            .Where(l => l.ClientId == clientId)
-                           .ToList();
-        }
+                           .ToList();  }
         public Loan GetLoanById(int loanId) => _context.Loans.Find(loanId);
         public void ReturnLoan(int loanId) { var loan = _context.Loans.Find(loanId); if (loan != null) { loan.ReturnDate = DateTime.UtcNow; _context.SaveChanges(); } }
         public void DeleteLoan(int loanId)
@@ -50,27 +43,22 @@ namespace LibraryManagement.Storage.Repository
 
             if (loan != null)
             {
-                // Ustaw książkę jako dostępną do wypożyczenia
                 loan.Book.IsLoaned = false;
 
-                // Usuń wypożyczenie
                 _context.Loans.Remove(loan);
-
-                // Zapisz zmiany w bazie
                 _context.SaveChanges();
             }
         }
         public void AddLoan(Loan loan)
         {
             var book = _context.Books.Find(loan.BookId);
-            var client = _context.Clients.Find(loan.ClientId);  // Pobieramy klienta z bazy
-
+            var client = _context.Clients.Find(loan.ClientId);  
             if (book != null && client != null && !book.IsLoaned)
             {
-                loan.Client = client;  // Przypisujemy klienta do wypożyczenia
-                loan.Book = book;  // Przypisujemy książkę do wypożyczenia
+                loan.Client = client;
+                loan.Book = book; 
                 _context.Loans.Add(loan);
-                book.IsLoaned = true;  // Oznaczamy książkę jako wypożyczoną
+                book.IsLoaned = true; 
                 _context.SaveChanges();
             }
             else
@@ -80,7 +68,7 @@ namespace LibraryManagement.Storage.Repository
         }
         public List<Loan> GetAllLoans()
         {
-            return _context.Loans.Include(l => l.Book).Include(l => l.Client).ToList(); // Pobieramy wszystkie wypożyczenia, łącznie z powiązanymi książkami i klientami
+            return _context.Loans.Include(l => l.Book).Include(l => l.Client).ToList();
         }
 
     }

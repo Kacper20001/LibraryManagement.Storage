@@ -25,8 +25,8 @@ namespace LibraryManagement.Service.Command.Loan
                 return Result.Fail(validationResult);
             }
 
-            var client = _repository.GetClientById(command.ClientId);  // Pobierz klienta
-            var book = _repository.GetBookById(command.BookId);  // Pobierz książkę
+            var client = _repository.GetClientById(command.ClientId);  
+            var book = _repository.GetBookById(command.BookId);  
             if (client == null || book == null)
             {
                 return Result.Fail("Klient lub książka nie istnieje.");
@@ -37,10 +37,10 @@ namespace LibraryManagement.Service.Command.Loan
                 return Result.Fail("Książka jest już wypożyczona.");
             }
 
-            // Ustaw datę zwrotu na 30 dni później
+            
             var returnDate = DateTime.UtcNow.AddDays(30);
 
-            // Tworzymy nowe wypożyczenie z powiązaniem do klienta i książki
+       
             var loan = new Storage.Entities.Loan(client.Id, client, book.Id, book, DateTime.UtcNow, returnDate);
 
             _repository.AddLoan(loan);

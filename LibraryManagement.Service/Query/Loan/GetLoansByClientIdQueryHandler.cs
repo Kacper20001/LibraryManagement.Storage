@@ -33,7 +33,7 @@ namespace LibraryManagement.Service.Query.Loan
                     l.Id,
                     l.BookId,
                     l.Book.Title,
-                    l.Client.Name + " " + l.Client.Surname,  // Pełne imię i nazwisko klienta
+                    l.Client.Name + " " + l.Client.Surname,  
                     l.LoanDate,
                     l.ReturnDate);
             }).ToList();
