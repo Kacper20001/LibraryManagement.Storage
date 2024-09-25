@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LibraryManagement.Service.Query.Dtos.ClientDto>
+
+<h2>Lista Klientów</h2>
+
+<!-- Input do wyszukiwania -->
+<input type="text" id="searchClients" class="form-control mb-3" placeholder="Szukaj klientów..." />
+
+<table class="table" id="clientsTable">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Email</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var client in Model)
+        {
+            <tr>
+                <td>@client.Name</td>
+                <td>@client.Surname</td>
+                <td>@client.Email</td>
+                <td>
+                    <a href="/Clients/Edit/@client.Id" class="btn btn-primary">Edytuj</a>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="ClientId" value="@client.Id" />
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Clients/Add" class="btn btn-success">Dodaj Klienta</a>
+<a href="/Books/Index" class="btn btn-success">Książki</a>
+<a href="/Loans/Index" class="btn btn-success">Wypożyczenia</a>
+
+<!-- Skrypt do filtrowania klientów -->
+<script>
+    document.getElementById('searchClients').addEventListener('keyup', function () {
+        var input = document.getElementById('searchClients').value.toLowerCase();
+        var rows = document.querySelectorAll('#clientsTable tbody tr');
+
+        rows.forEach(function (row) {
+            var name = row.cells[0].innerText.toLowerCase();
+            var surname = row.cells[1].innerText.toLowerCase();
+            var email = row.cells[2].innerText.toLowerCase();
+
+            if (name.includes(input) || surname.includes(input) || email.includes(input)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

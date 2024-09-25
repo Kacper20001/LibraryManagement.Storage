@@ -1,0 +1,29 @@
+﻿@model LibraryManagement.Service.Command.Client.Update.UpdateClientCommand
+
+<h2>Edytuj Klienta</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="ClientId" />
+
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Imię</label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Surname" class="control-label">Nazwisko</label>
+        <input asp-for="Surname" class="form-control" />
+        <span asp-validation-for="Surname" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Email" class="control-label">Email</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zapisz zmiany</button>
+    <button type="button" class="btn btn-secondary" onclick="window.history.back()">Powrót</button>
+
+</form>

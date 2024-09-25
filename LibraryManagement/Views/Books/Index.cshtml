@@ -1,0 +1,59 @@
+﻿@model IEnumerable<LibraryManagement.Service.Query.Dtos.BookDto>
+
+<h2>Książki</h2>
+
+<!-- Input do wyszukiwania -->
+<input type="text" id="searchBooks" class="form-control mb-3" placeholder="Szukaj książek..." />
+
+<table class="table" id="booksTable">
+    <thead>
+        <tr>
+            <th>Tytuł</th>
+            <th>Autor</th>
+            <th>Gatunek</th>
+            <th>Rok</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var book in Model)
+        {
+            <tr>
+                <td>@book.Title</td>
+                <td>@book.Author</td>
+                <td>@book.Genre</td>
+                <td>@book.Year</td>
+                <td>
+                    <a href="/Books/Edit/@book.Id" class="btn btn-primary">Edytuj</a>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="BookId" value="@book.Id" />
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Books/Add" class="btn btn-success">Dodaj Książkę</a>
+<button type="button" class="btn btn-secondary" onclick="window.history.back()">Powrót</button>
+
+<!-- Skrypt do filtrowania książek -->
+<script>
+    document.getElementById('searchBooks').addEventListener('keyup', function () {
+        var input = document.getElementById('searchBooks').value.toLowerCase();
+        var rows = document.querySelectorAll('#booksTable tbody tr');
+
+        rows.forEach(function (row) {
+            var title = row.cells[0].innerText.toLowerCase();
+            var author = row.cells[1].innerText.toLowerCase();
+            var genre = row.cells[2].innerText.toLowerCase();
+
+            if (title.includes(input) || author.includes(input) || genre.includes(input)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

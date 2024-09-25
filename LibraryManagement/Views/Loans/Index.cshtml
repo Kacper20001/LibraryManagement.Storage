@@ -1,0 +1,58 @@
+﻿@model IEnumerable<LibraryManagement.Service.Query.Dtos.LoanDto>
+
+<h2>Lista Wypożyczeń</h2>
+
+<!-- Input do wyszukiwania -->
+<input type="text" id="searchLoans" class="form-control mb-3" placeholder="Szukaj wypożyczeń..." />
+
+<table class="table" id="loansTable">
+    <thead>
+        <tr>
+            <th>Tytuł Książki</th>
+            <th>Klient</th>
+            <th>Data Wypożyczenia</th>
+            <th>Data Zwrotu</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var loan in Model)
+        {
+            <tr>
+                <td>@loan.BookTitle</td>
+                <td>@loan.ClientName</td>
+                <td>@loan.LoanDate.ToString("yyyy-MM-dd")</td>
+                <td>@loan.ReturnDate?.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <form asp-action="Delete" method="post" style="display:inline">
+                        <input type="hidden" name="LoanId" value="@loan.Id" />
+                        <button type="submit" class="btn btn-danger">Usuń</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Loans/Add" class="btn btn-success">Dodaj Wypożyczenie</a>
+<button type="button" class="btn btn-secondary" onclick="window.history.back()">Powrót</button>
+
+<!-- Skrypt do filtrowania wypożyczeń -->
+<script>
+    document.getElementById('searchLoans').addEventListener('keyup', function () {
+        var input = document.getElementById('searchLoans').value.toLowerCase();
+        var rows = document.querySelectorAll('#loansTable tbody tr');
+
+        rows.forEach(function (row) {
+            var title = row.cells[0].innerText.toLowerCase();
+            var client = row.cells[1].innerText.toLowerCase();
+            var loanDate = row.cells[2].innerText.toLowerCase();
+
+            if (title.includes(input) || client.includes(input) || loanDate.includes(input)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>
